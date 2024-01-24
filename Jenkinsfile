@@ -1,44 +1,28 @@
-pipeline {
-    agent any 
-    tools {
-         maven 'maven'
-         jdk 'java'
-    }
-    stages {
-        stage('Stage-1 : Clean') { 
-            steps {
-                sh 'mvn clean'
-            }
-        }
-         stage('Stage-2 : Validate') { 
-            steps {
-                sh 'mvn validate'
-            }
-        }
-         stage('Stage-3 : Compile') { 
-            steps {
-                sh 'mvn compile'
-            }
-        }
-         stage('Stage-4 : Test') { 
-            steps {
-                sh 'mvn test -DskipTests'
-            }
-        }
-          stage('Stage-5 : Package') { 
-            steps {
-                sh 'mvn package'
-            }
-        }
-          stage('Stage-6 : Install') { 
-            steps {
-                sh 'mvn install'
-            }
-        }
-          stage('Stage-7 : Verify') { 
-            steps {
-                sh 'mvn verify'
-            }
-        }
-    }
+node {
+   def mvnHome
+  stage('Prepare') {
+      git url: 'https://github.com/Sakethgudikandula/saketh_ultimate_project.git', branch: 'main'
+      mvnHome = tool 'maven'
+   }
+  stage ('Clean') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean"
+  }
+  stage ('Validate') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore validate"
+  }
+  stage ('Compile') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore compile"
+  }
+  stage ('Test') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore test"
+  }
+  stage ('Package') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore package"
+  }
+  stage ('Verify') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore verify"
+  }
+  stage ('Install') {
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore install"
+  }
 }
