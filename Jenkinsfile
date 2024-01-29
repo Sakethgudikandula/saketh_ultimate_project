@@ -54,7 +54,7 @@ pipeline {
   
         stage('Stage-10 : SmokeTest') { 
             steps {
-                sh 'curl --retry-delay 10 --retry 5 "http://http://18.212.77.252:8080/devops"'
+                sh 'curl --retry-delay 10 --retry 5 "http://18.212.77.252:8080/devops"'
             }
         }
 
