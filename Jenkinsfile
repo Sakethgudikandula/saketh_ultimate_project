@@ -41,10 +41,24 @@ pipeline {
                 sh 'mvn verify'
             }
         }
-        stage('Stage-8 : Deploy') { 
+        stage('Stage-8 : Deploy to jfrog artifactory') { 
             steps {
                 sh 'mvn deploy'
             }
         }
+        stage('Stage-9 : Deployment - Deploy a Artifact cloudbniarydevops-3.0.0-SNAPSHOT.war file to Tomcat Server') { 
+            steps {
+                sh 'curl -u admin:redhat@123 -T target/**.war "http://54.144.112.116:8080//manager/text/deploy?path=/saketh&update=true"'
+            }
+        } 
+  
+        stage('Stage-10 : SmokeTest') { 
+            steps {
+                sh 'curl --retry-delay 10 --retry 5 "http://54.144.112.116:8080/devops"'
+            }
+        }
+
+
+
     }
 }
